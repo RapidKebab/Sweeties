@@ -27,7 +27,9 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        timeSlide.value = Mathf.Clamp((endTime + times[currentGame]) / times[currentGame], 0, 1);
+        Debug.Log(endTime.ToString() +" "+ times[currentGame].ToString());
+        Debug.Log(((Time.time-(endTime - times[currentGame])) / times[currentGame]).ToString());
+        timeSlide.value = 1- Mathf.Clamp((Time.time - (endTime - times[currentGame])) / times[currentGame], 0, 1);
         if (Time.time > endTime && !transitioning)
         {
             Transition();
@@ -42,6 +44,11 @@ public class Game : MonoBehaviour
         scoreText.text = "Your Score: "+score.ToString();
         currentGame++;
         StartCoroutine(Wait(transitionWaitTime));
+    }
+
+    IEnumerator Wait(float s)
+    {
+        yield return new WaitForSeconds(s);
         if (currentGame >= microGames.Length)
         {
             SceneManager.LoadScene(0);
@@ -51,10 +58,5 @@ public class Game : MonoBehaviour
         microGames[currentGame].SetActive(true);
         transition.SetActive(false);
         transitioning = false;
-    }
-
-    IEnumerator Wait(float s)
-    {
-        yield return new WaitForSeconds(s);
     }
 }
