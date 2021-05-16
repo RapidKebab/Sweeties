@@ -27,8 +27,6 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(endTime.ToString() +" "+ times[currentGame].ToString());
-        Debug.Log(((Time.time-(endTime - times[currentGame])) / times[currentGame]).ToString());
         timeSlide.value = 1- Mathf.Clamp((Time.time - (endTime - times[currentGame])) / times[currentGame], 0, 1);
         if (Time.time > endTime && !transitioning)
         {
