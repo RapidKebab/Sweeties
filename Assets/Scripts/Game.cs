@@ -42,8 +42,11 @@ public class Game : MonoBehaviour
         scoreText.text = "Your Score: "+score.ToString();
         currentGame++;
         StartCoroutine(Wait(transitionWaitTime));
-        if(currentGame>=microGames.Length)
+        if (currentGame >= microGames.Length)
+        {
             SceneManager.LoadScene(0);
+            Debug.Log("lol");
+        }
         endTime = Time.time + times[currentGame];
         microGames[currentGame].SetActive(true);
         transition.SetActive(false);
