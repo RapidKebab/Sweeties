@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
@@ -17,30 +18,36 @@ public class Game : MonoBehaviour
     int currentGame;
     float endTime;
     bool transitioning;
-    // Start is called before the first frame update
+
     void Start()
     {
         endTime = Time.time + times[currentGame];
         microGames[currentGame].SetActive(true);
     }
 
-    // Update is called once per frame
     void Update()
     {
         timeSlide.value = Mathf.Clamp((endTime + times[currentGame]) / times[currentGame], 0, 1);
         if (Time.time > endTime && !transitioning)
         {
-            transitioning = true;
             Transition();
         }
     }
 
-    void Transition()
+    public void Transition()
     {
+        transitioning = true;
         transition.SetActive(true);
         transitionText.text = transitionTexts[currentGame];
-        scoreText.text = "your score: "+score.ToString();
+        scoreText.text = "Your Score: "+score.ToString();
+        currentGame++;
         StartCoroutine(Wait(transitionWaitTime));
+        if(currentGame>=microGames.Length)
+            SceneManager.LoadScene(0);
+        endTime = Time.time + times[currentGame];
+        microGames[currentGame].SetActive(true);
+        transition.SetActive(false);
+        transitioning = false;
     }
 
     IEnumerator Wait(float s)
