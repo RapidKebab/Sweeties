@@ -40,6 +40,7 @@ public class Game : MonoBehaviour
         transition.SetActive(true);
         transitionText.text = transitionTexts[currentGame];
         scoreText.text = "Your Score: "+score.ToString();
+        microGames[currentGame].SetActive(false);
         currentGame++;
         StartCoroutine(Wait(transitionWaitTime));
     }
